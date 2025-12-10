@@ -57,4 +57,16 @@ router.get("/:recipeId", async (req, res) => {
   }
 });
 
+//DELETE a recipe
+//DELETE /recipes/:recipeId
+router.delete("/:recipeId", async (req, res) => {
+  try {
+    await Recipe.deleteOne({ _id: req.params.recipeId });
+    res.redirect("/recipes");
+  } catch (error) {
+    console.log(error);
+    res.redirect("/recipes");
+  }
+});
+
 module.exports = router;
