@@ -65,7 +65,7 @@ router.delete("/:recipeId", async (req, res) => {
     res.redirect("/recipes");
   } catch (error) {
     console.log(error);
-    res.redirect("/recipes");
+    res.redirect("/");
   }
 });
 
