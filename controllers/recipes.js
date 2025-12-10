@@ -5,6 +5,8 @@ const User = require("../models/user.js");
 const Recipe = require("../models/recipe.js");
 const Ingredient = require("../models/ingredient.js");
 
+// INDEX PAGE
+// GET /recipes
 router.get("/", async (req, res) => {
   try {
     const recipes = await Recipe.find({ owner: req.session.user._id });
@@ -15,16 +17,44 @@ router.get("/", async (req, res) => {
   }
 });
 
+// NEW RECIPE PAGE
+// GET /recipes/new
 router.get("/new", async (req, res) => {
-  const ingredients = await Ingredient.find({});
-  res.render("recipes/new.ejs", { ingredients });
+  try {
+    const ingredients = await Ingredient.find({});
+    res.render("recipes/new.ejs", { ingredients });
+  } catch (error) {
+    console.log(error);
+    res.redirect("/recipes");
+  }
 });
 
+// CREATE RECIPE
+// POST /recipes
 router.post("/", async (req, res) => {
-  const newRecipe = new Recipe(req.body);
-  newRecipe.owner = req.session.user._id;
-  await newRecipe.save();
-  res.redirect("/recipes");
+  try {
+    const newRecipe = new Recipe(req.body);
+    newRecipe.owner = req.session.user._id;
+    await newRecipe.save();
+    res.redirect("/recipes");
+  } catch (error) {
+    console.log(error);
+    res.redirect("/recipes");
+  }
+});
+
+// SHOW RECIPE PAGE
+//GET /recipes/:recipeId
+router.get("/:recipeId", async (req, res) => {
+  try {
+    const recipe = await Recipe.findById(req.params.recipeId)
+      .populate("ingredients")
+      .populate("owner");
+    res.render("recipes/show.ejs", { recipe });
+  } catch (error) {
+    console.log(error);
+    res.redirect("/recipes");
+  }
 });
 
 module.exports = router;
