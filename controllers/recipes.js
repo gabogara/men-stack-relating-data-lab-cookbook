@@ -69,4 +69,37 @@ router.delete("/:recipeId", async (req, res) => {
   }
 });
 
+// EDIT: show edit form
+// /recipes/:recipeId/edit
+router.get("/:recipeId/edit", async (req, res) => {
+  try {
+    const recipe = await Recipe.findById(req.params.recipeId);
+    const ingredients = await Ingredient.find({});
+    res.render("recipes/edit.ejs", { recipe, ingredients });
+  } catch (error) {
+    console.log(error);
+    res.redirect("/recipes");
+  }
+});
+
+// UPDATE: handle edit form
+router.put("/:recipeId", async (req, res) => {
+  try {
+    const recipe = await Recipe.findById(req.params.recipeId);
+
+    recipe.name = req.body.name;
+    recipe.instructions = req.body.instructions;
+    // ingredients los configuro despues
+
+    await recipe.save();
+
+    res.redirect(`/recipes/${recipe._id}`);
+  } catch (error) {
+    console.log(error);
+    res.redirect("/recipes");
+  }
+});
+
+
+
 module.exports = router;

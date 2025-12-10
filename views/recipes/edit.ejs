@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Edit <%= recipe.name %></title>
+  </head>
+  <body>
+    <%- include('../partials/_navbar.ejs') %>
+
+    <h1>Edit <%= recipe.name %></h1>
+
+    <form action="/recipes/<%= recipe._id %>?_method=PUT" method="POST">
+      <label>Name</label>
+      <input name="name" value="<%= recipe.name %>" required />
+
+      <label>Instructions</label>
+      <textarea name="instructions"><%= recipe.instructions %></textarea>
+
+      <button type="submit">Update Recipe</button>
+    </form>
+
+    <a href="/recipes/<%= recipe._id %>">Cancel</a>
+  </body>
+</html>
