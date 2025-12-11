@@ -54,7 +54,7 @@ router.get("/:recipeId", async (req, res) => {
     res.render("recipes/show.ejs");
   } catch (error) {
     console.log(error);
-    res.redirect("/recipes");
+    res.redirect("/");
   }
 });
 
