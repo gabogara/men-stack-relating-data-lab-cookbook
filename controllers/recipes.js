@@ -105,14 +105,24 @@ router.get("/:recipeId/edit", async (req, res) => {
 });
 
 // UPDATE: handle edit form
-// /recipes/:recipeId
+// PUT /recipes/:recipeId
 router.put("/:recipeId", async (req, res) => {
   try {
     const recipe = await Recipe.findById(req.params.recipeId);
 
     recipe.name = req.body.name;
     recipe.instructions = req.body.instructions;
-    // ingredients los configuro despues
+
+    let ingredients = [];
+    if (Array.isArray(req.body.ingredients)) {
+      ingredients = req.body.ingredients;
+    } else if (req.body.ingredients) {
+      ingredients = [req.body.ingredients];
+    } else {
+      ingredients = [];
+    }
+
+    recipe.ingredients = ingredients;
 
     await recipe.save();
 
