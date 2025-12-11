@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-const User = require("../models/user.js");
-const Recipe = require("../models/recipe.js");
 const Ingredient = require("../models/ingredient.js");
 
 // INGREDIENTS INDEX PAGE
@@ -10,7 +8,12 @@ const Ingredient = require("../models/ingredient.js");
 router.get("/", async (req, res) => {
   try {
     const ingredients = await Ingredient.find({});
-    res.render("ingredients/index.ejs", { ingredients });
+    const isDuplicate = req.query.duplicate === "1";
+
+    res.render("ingredients/index.ejs", {
+      ingredients,
+      isDuplicate,
+    });
   } catch (error) {
     console.log(error);
     res.redirect("/");
@@ -26,18 +29,18 @@ router.post("/", async (req, res) => {
       return res.redirect("/ingredients");
     }
 
+    const existing = await Ingredient.findOne({ name });
+    if (existing) {
+
+      return res.redirect("/ingredients?duplicate=1");
+    }
+
     await Ingredient.create({ name });
     res.redirect("/ingredients");
   } catch (error) {
     console.log(error);
-
-    if (error.code === 11000) {
-      return res.redirect("/ingredients");
-    }
-
     res.redirect("/");
   }
 });
-
 
 module.exports = router;

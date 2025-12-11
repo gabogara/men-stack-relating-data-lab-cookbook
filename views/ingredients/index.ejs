@@ -9,7 +9,9 @@
 
     <h1>Ingredients</h1>
 
-    <% if (ingredients.length === 0) { %>
+    <% if (isDuplicate) { %>
+    <p style="color: red">That ingredient already exists.</p>
+    <% } %> <% if (ingredients.length === 0) { %>
     <p>No ingredients yet.</p>
     <% } else { %>
     <ul>
