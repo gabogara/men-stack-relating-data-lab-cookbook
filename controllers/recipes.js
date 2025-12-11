@@ -83,6 +83,7 @@ router.get("/:recipeId/edit", async (req, res) => {
 });
 
 // UPDATE: handle edit form
+// /recipes/:recipeId
 router.put("/:recipeId", async (req, res) => {
   try {
     const recipe = await Recipe.findById(req.params.recipeId);
@@ -99,7 +100,5 @@ router.put("/:recipeId", async (req, res) => {
     res.redirect("/recipes");
   }
 });
-
-
 
 module.exports = router;
