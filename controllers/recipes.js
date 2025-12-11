@@ -25,7 +25,7 @@ router.get("/new", async (req, res) => {
     res.render("recipes/new.ejs", { ingredients });
   } catch (error) {
     console.log(error);
-    res.redirect("/recipes");
+    res.redirect("/");
   }
 });
 
@@ -39,7 +39,7 @@ router.post("/", async (req, res) => {
     res.redirect("/recipes");
   } catch (error) {
     console.log(error);
-    res.redirect("/recipes");
+    res.redirect("/");
   }
 });
 
@@ -54,7 +54,7 @@ router.get("/:recipeId", async (req, res) => {
     res.render("recipes/show.ejs");
   } catch (error) {
     console.log(error);
-    res.redirect("/recipes");
+    res.redirect("/");
   }
 });
 
@@ -79,7 +79,7 @@ router.get("/:recipeId/edit", async (req, res) => {
     res.render("recipes/edit.ejs", { recipe, ingredients });
   } catch (error) {
     console.log(error);
-    res.redirect("/recipes");
+    res.redirect("/");
   }
 });
 
@@ -98,7 +98,7 @@ router.put("/:recipeId", async (req, res) => {
     res.redirect(`/recipes/${recipe._id}`);
   } catch (error) {
     console.log(error);
-    res.redirect("/recipes");
+    res.redirect("/");
   }
 });
 
