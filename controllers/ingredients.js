@@ -21,12 +21,23 @@ router.get("/", async (req, res) => {
 // POST /ingredients
 router.post("/", async (req, res) => {
   try {
-    await Ingredient.create(req.body);
+    const name = req.body.name?.trim();
+    if (!name) {
+      return res.redirect("/ingredients");
+    }
+
+    await Ingredient.create({ name });
     res.redirect("/ingredients");
   } catch (error) {
     console.log(error);
+
+    if (error.code === 11000) {
+      return res.redirect("/ingredients");
+    }
+
     res.redirect("/");
   }
 });
+
 
 module.exports = router;

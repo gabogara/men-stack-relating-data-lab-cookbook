@@ -34,6 +34,7 @@ router.get("/new", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     let ingredients = [];
+
     if (Array.isArray(req.body.ingredients)) {
       ingredients = req.body.ingredients;
     } else if (req.body.ingredients) {
@@ -42,10 +43,12 @@ router.post("/", async (req, res) => {
       ingredients = [];
     }
 
+    const uniqueIngredients = [...new Set(ingredients)];
+
     const newRecipe = new Recipe({
       name: req.body.name,
       instructions: req.body.instructions,
-      ingredients: ingredients,
+      ingredients: uniqueIngredients,
       owner: req.session.user._id,
     });
 
@@ -122,7 +125,8 @@ router.put("/:recipeId", async (req, res) => {
       ingredients = [];
     }
 
-    recipe.ingredients = ingredients;
+    const uniqueIngredients = [...new Set(ingredients)];
+    recipe.ingredients = uniqueIngredients;
 
     await recipe.save();
 
