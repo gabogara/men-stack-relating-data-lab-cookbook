@@ -85,12 +85,19 @@ router.delete("/:recipeId", async (req, res) => {
 });
 
 // EDIT: show edit form
-// /recipes/:recipeId/edit
+// GET /recipes/:recipeId/edit
 router.get("/:recipeId/edit", async (req, res) => {
   try {
     const recipe = await Recipe.findById(req.params.recipeId);
     const ingredients = await Ingredient.find({});
-    res.render("recipes/edit.ejs", { recipe, ingredients });
+
+    const selectedIngredientIds = recipe.ingredients.map((id) => id.toString());
+
+    res.render("recipes/edit.ejs", {
+      recipe,
+      ingredients,
+      selectedIngredientIds,
+    });
   } catch (error) {
     console.log(error);
     res.redirect("/");
