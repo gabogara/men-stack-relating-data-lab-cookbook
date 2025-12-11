@@ -25,7 +25,7 @@ router.post("/", async (req, res) => {
     res.redirect("/ingredients");
   } catch (error) {
     console.log(error);
-    res.redirect("/ingredients");
+    res.redirect("/");
   }
 });
 
