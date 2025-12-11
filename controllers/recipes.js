@@ -33,8 +33,22 @@ router.get("/new", async (req, res) => {
 // POST /recipes
 router.post("/", async (req, res) => {
   try {
-    const newRecipe = new Recipe(req.body);
-    newRecipe.owner = req.session.user._id;
+    let ingredients = [];
+    if (Array.isArray(req.body.ingredients)) {
+      ingredients = req.body.ingredients;
+    } else if (req.body.ingredients) {
+      ingredients = [req.body.ingredients];
+    } else {
+      ingredients = [];
+    }
+
+    const newRecipe = new Recipe({
+      name: req.body.name,
+      instructions: req.body.instructions,
+      ingredients: ingredients,
+      owner: req.session.user._id,
+    });
+
     await newRecipe.save();
     res.redirect("/recipes");
   } catch (error) {
