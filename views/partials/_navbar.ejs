@@ -1,13 +1,12 @@
-<nav>
+<nav class="main-nav">
   <a href="/">Home</a>
 
   <% if (user) { %>
   <a href="/recipes">My Recipes</a>
-  <!-- puedes tener /users para ver otros usuarios más tarde -->
-  <a href="/auth/sign-out">Sign Out</a>
+  <a href="/ingredients">Ingredients</a>
+  <a href="/auth/sign-out">Sign out</a>
   <% } else { %>
-  <a href="/auth/sign-in">Sign In</a>
-  <a href="/auth/sign-up">Sign Up</a>
+  <a href="/auth/sign-up">Sign up</a>
+  <a href="/auth/sign-in">Sign in</a>
   <% } %>
 </nav>
-<hr />
