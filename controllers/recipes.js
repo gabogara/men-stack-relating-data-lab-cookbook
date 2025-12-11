@@ -9,8 +9,8 @@ const Ingredient = require("../models/ingredient.js");
 // GET /recipes
 router.get("/", async (req, res) => {
   try {
-    const recipes = await Recipe.find({ owner: req.session.user._id });
-    res.render("recipes/index.ejs", { recipes });
+    res.locals.recipes = await Recipe.find({ owner: req.session.user._id });
+    res.render("recipes/index.ejs");
   } catch (error) {
     console.log(error);
     res.redirect("/");
@@ -44,13 +44,14 @@ router.post("/", async (req, res) => {
 });
 
 // SHOW RECIPE PAGE
-//GET /recipes/:recipeId
+// GET /recipes/:recipeId
 router.get("/:recipeId", async (req, res) => {
   try {
     const recipe = await Recipe.findById(req.params.recipeId)
       .populate("ingredients")
       .populate("owner");
-    res.render("recipes/show.ejs", { recipe });
+    res.locals.recipe = recipe;
+    res.render("recipes/show.ejs");
   } catch (error) {
     console.log(error);
     res.redirect("/recipes");
